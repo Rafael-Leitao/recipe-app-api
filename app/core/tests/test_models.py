@@ -18,11 +18,11 @@ class ModelTests(TestCase):
         """Test creating a user with an email is successful"""
         email = "test@example.com"
         password = "testpass123"
-        user = get_user_model().objects.create_user(email=email, password=password)
+        user = get_user_model().objects.create_user(email=email,
+                                                    password=password)
 
         self.assertEqual(user.email, email)
         self.assertTrue(user.check_password(password))
-
 
     def test_new_user_email_normalized(self):
         """Test the email for a new user is normalized"""
@@ -41,14 +41,12 @@ class ModelTests(TestCase):
         with self.assertRaises(ValueError):
             get_user_model().objects.create_user('', 'test123')
 
-
     def test_create_superuser(self):
         """Test creating a superuser"""
         user = get_user_model().objects.create_superuser(
             'test@example.com', 'test123',)
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
-
 
     def test_create_recipe(self):
         """Test creating a recipe is successful"""
@@ -75,7 +73,8 @@ class ModelTests(TestCase):
     def test_create_ingredient(self):
         """Test creating an ingredient is successful"""
         user = create_user()
-        ingredient = models.Ingredient.objects.create(user=user, name='Ingredient1')
+        ingredient = models.Ingredient.objects.create(
+            user=user, name='Ingredient1')
         self.assertEqual(str(ingredient), ingredient.name)
 
     @patch('core.models.uuid.uuid4')
